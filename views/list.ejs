@@ -1,0 +1,31 @@
+<%- include("header"); -%>
+
+    <!-- first div with marker tag -->
+    <div class="box" id="heading" >
+        <!-- EJS marker tag -->
+        <h1> <%=listTitle%> </h1> <!-- listTitle is dynamic and is from the server -->
+    </div>
+    <!-- second div with for loop -->
+    <div class="box">
+    <!-- special tags needed for js code -->     
+    <%   newListItems.forEach(function(item) { %>
+        <form action="/delete" method="post"> <!-- makes a post request to /delete route -->
+            <!-- the item id gets passed over when a user selects an item to delete -->    
+            <div class="item">
+                <!-- the form gets triggered when a checkbox is clicked -->
+                <input type="checkbox" name="checkedItem" value="<%=item._id%>" onchange="this.form.submit()">
+                <p><%=item.name%></p> <!-- access the name of item only -->
+            </div>  
+            <!-- hidden from user, the listTitle gets passed over to the server when form is triggered -->
+            <input type="hidden" name="listName" value="<%=listTitle%>"></input>
+        </form>
+    <%   }); %>
+        <!-- form with submit button -->
+        <form class="item" action="/" method="post"> <!-- route for adding items --> 
+            <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+            <!-- submit will trigger the form to make a post request -->
+            <button type="submit" name="list" value=<%=listTitle %>>+</button>
+        </form>    
+    </div>
+
+<%- include("footer"); -%>  
